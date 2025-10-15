@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Freelance Hub - Auth & Profile</title>
+  <style>
+    /* 🌙 Dark Theme Base */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #121212;
+      color: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 350px;
+      background: #1e1e1e;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #00ffcc;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      background: #2a2a2a;
+      color: #fff;
+    }
+
+    input:focus {
+      outline: 2px solid #00ffcc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      background: #00ffcc;
+      color: #121212;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #00cca3;
+    }
+
+    .toggle-link {
+      margin-top: 12px;
+      text-align: center;
+      color: #bbb;
+      cursor: pointer;
+    }
+
+    .profile {
+      text-align: center;
+    }
+
+    .profile img {
+      width: 100px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      border: 2px solid #00ffcc;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="auth-container">
+    <h2 id="form-title">Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <div class="toggle-link" onclick="toggleForm()">Don't have an account? Sign up</div>
+  </div>
+
+  <div class="container hidden" id="profile-container">
+    <div class="profile">
+      <img src="https://i.ibb.co/2y6Xc1B/avatar.png" alt="profile">
+      <h2 id="profile-name">User</h2>
+      <p>🌟 Skills: Web Development, UI/UX, SEO</p>
+      <p>💰 Rate: $20/hr</p>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    let isSignup = false;
+    let users = {}; // Temporary user storage
+
+    function toggleForm() {
+      const formTitle = document.getElementById("form-title");
+      const toggleLink = document.querySelector(".toggle-link");
+      const button = document.querySelector("button");
+
+      isSignup = !isSignup;
+      if (isSignup) {
+        formTitle.textContent = "Sign Up";
+        button.textContent = "Sign Up";
+        toggleLink.textContent = "Already have an account? Login";
+      } else {
+        formTitle.textContent = "Login";
+        button.textContent = "Login";
+        toggleLink.textContent = "Don't have an account? Sign up";
+      }
+    }
+
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (isSignup) {
+        if (users[username]) {
+          alert("User already exists! Try login.");
+        } else {
+          users[username] = password;
+          alert("Signup successful! Now login.");
+          toggleForm();
+        }
+      } else {
+        if (users[username] && users[username] === password) {
+          document.getElementById("auth-container").classList.add("hidden");
+          document.getElementById("profile-container").classList.remove("hidden");
+          document.getElementById("profile-name").textContent = username;
+        } else {
+          alert("Invalid credentials!");
+        }
+      }
+    }
+
+    function logout() {
+      document.getElementById("profile-container").classList.add("hidden");
+      document.getElementById("auth-container").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Posting & Bidding System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #f1f1f1;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #1f1f1f;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00adb5;
+      border-bottom: 2px solid #00adb5;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 20px auto;
+    }
+
+    .job-form, .bid-form {
+      background: #1e1e1e;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 173, 181, 0.4);
+    }
+
+    h2 {
+      color: #00adb5;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 5px;
+      background: #2a2a2a;
+      color: #f1f1f1;
+    }
+
+    button {
+      background: #00adb5;
+      color: #121212;
+      padd
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search & Matching System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #f1f1f1;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #1f1f1f;
+      color: #00adb5;
+      text-align: center;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      border-bottom: 2px solid #00adb5;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 30px auto;
+    }
+
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .search-bar input {
+      width: 70%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px 0 0 8px;
+      background: #1e1e1e;
+      color: #f1f1f1;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .search-bar button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 0 8px 8px 0;
+      background: #00adb5;
+      color: #121212;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .search-bar button:hover {
+      background: #06d6a0;
+    }
+
+    .results {
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border-left: 4px solid #00adb5;
+      box-shadow: 0 0 10px rgba(0,173,181,0.3);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #00adb5;
+    }
+
+    .card p {
+      margin: 8px 0;
+    }
+
+    .match-score {
+      color: #06d6a0;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>🔍 Job Search & Matching (Dark Theme)</header>
+
+  <div class="container">
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" placeholder="Search jobs or freelancers...">
+      <button>Search</button>
+    </div>
+
+    <!-- Results Section -->
+    <div class="results">
+      <div class="card">
+        <h3>Frontend Developer Needed</h3>
+        <p>Skills: React.js, CSS, Responsive Design</p>
+        <p><strong>Budget:</strong> $500</p>
+        <p class="match-score">Match Score: 92%</p>
+      </div>
+
+      <div class="card">
+        <h3>Graphic Designer for Logo</h3>
+        <p>Skills: Photoshop, Illustrator, Branding</p>
+        <p><strong>Budget:</strong> $200</p>
+        <p class="match-score">Match Score: 85%</p>
+      </div>
+
+      <div class="card">
+        <h3>Content Writer (Tech Blogs)</h3>
+        <p>Skills: SEO, Blogging, Tech Knowledge</p>
+        <p><strong>Budget:</strong> $150</p>
+        <p class="match-score">Match Score: 78%</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Theme Chat</title>
+  <style>
+    /* 🌑 Dark Theme Chat */
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #121212;
+      color: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .chat-container {
+      background-color: #1e1e1e;
+      width: 400px;
+      height: 600px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 20px rgba(0, 173, 181, 0.4);
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background-color: #1f1f1f;
+      padding: 15px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #00adb5;
+      border-bottom: 2px solid #00adb5;
+      text-align: center;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background-color: #121212;
+    }
+
+    .message {
+      max-width: 70%;
+      padding: 10px 15px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      word-wrap: break-word;
+      font-size: 14px;
+    }
+
+    .message.sent {
+      background-color: #00adb5;
+      color: #121212;
+      align-self: flex-end;
+      border-bottom-right-radius: 0;
+    }
+
+    .message.received {
+      background-color: #2a2a2a;
+      color: #f1f1f1;
+      align-self: flex-start;
+      border-bottom-left-radius: 0;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 10px;
+      background-color: #1f1f1f;
+      border-top: 2px solid #00adb5;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background-color: #2a2a2a;
+      color: #f1f1f1;
+      font-size: 14px;
+      outline: none;
+      margin-right: 10px;
+    }
+
+    .chat-input button {
+      padding: 10px 20px;
+      background-color: #00adb5;
+      color: #121212;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .chat-input button:hover {
+      background-color: #06d6a0;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">💬 Dark Chat Interface</div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="message received">Hello! Welcome to the chat.</div>
+      <div class="message sent">Hi there! Thanks.</div>
+    </div>
+
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Type your message...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+
+    function sendMessage() {
+      const message = chatInput.value.trim();
+      if (message === "") return;
+
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message', 'sent');
+      messageDiv.textContent = message;
+      chatMessages.appendChild(messageDiv);
+
+      chatInput.value = '';
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // Simulated response
+      setTimeout(() => {
+        const replyDiv = document.createElement('div');
+        replyDiv.classList.add('message', 'received');
+        replyDiv.textContent = "Bot: " + message;
+        chatMessages.appendChild(replyDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }, 1000);
+    }
+
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Theme Review & Rating</title>
+  <style>
+    /* 🌑 Dark Theme Review System */
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #121212;
+      color: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .review-container {
+      background-color: #1e1e1e;
+      width: 400px;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Tools Dashboard</title>
+  <style>
+    /* 🌑 Dark Theme AI Tools Dashboard */
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #121212;
+      color: #f1f1f1;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #1e1e1e;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile App Integration</title>
+  <style>
+    /* 🌑 Dark Theme Mobile App Integration */
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #121212;
+      color: #f1f1f1;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #1e1e1e;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00adb5;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .app-card {
+      background-color: #1f1f1f;
+      border-radius: 12px;
+      padding: 20px;
+      width: 250px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0, 173, 181, 0.4);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Language & Multi-Currency</title>
+  <style>
+    /* 🌑 Dark Theme Multi-Language & Multi-Currency */
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #121212;
+      color: #f1f1f1;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #1e1e1e;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00adb5;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .card {
+      background-color: #1f1f1f;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0, 173, 181, 0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .card label {
+      font-weight: bold;
+      color: #00adb5;
+      margin-bottom: 5px;
+    }
+
+    .card select, .card input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background-color: #2a2a2a;
+      color: #f1f1f1;
+      font-size: 14px;
+      outline: none;
+      cursor: pointer;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics Dashboard - Dark Theme</title>
+  <style>
+    /* 🌑 Dark Theme Analytics Dashboard */
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: #f1f1f1;
+    }
+
+    header {
+      background-color: #1e1e1e;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #00adb5;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      background-color: #1f1f1f;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 173, 181, 0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(0, 173, 181, 0.7);
+    }
+
+    .card h3 {
+      color: #00adb5;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .card p {
